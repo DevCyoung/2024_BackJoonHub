@@ -1,318 +1,82 @@
 #include <string>
-        
-        
-          
-          #include <vector>
-        
-        
-          
-          #include <map>
-        
-        
-          
-          #include <sstream>
-        
-        
-          
-          #include <iostream>
-        
-        
-          
-          #include <algorithm>
-        
-        
-          
-          using namespace std;
-        
-        
-          
-          
+#include <vector>
+#include <map>
 
-        
-        
-          
-          const int MAX = 50;
-        
-        
-          
-          
+using namespace std;
 
-        
-        
-          
-          int arr[MAX][MAX];
-        
-        
-          
-          map<string, int> name2idx;
-        
-        
-          
-          map<string, int> name2factor;
-        
-        
-          
-          
-
-        
-        
-          
-          void init(vector<string> &friends)
-        
-        
-          
-          {
-        
-        
-          
-              int idx = 0;
-        
-        
-          
-              
-        
-        
-          
-              for (string f : friends)
-        
-        
-          
-              {
-        
-        
-          
-                  name2idx[f] = idx++;
-        
-        
-          
-              }
-        
-        
-          
-          }
-        
-        
-          
-          
-
-        
-        
-          
-          bool cmp(int a, int b)
-        
-        
-          
-          {
-        
-        
-          
-              return a > b;
-        
-        
-          
-          }
-        
-        
-          
-          
-
-        
-        
-          
-          int solution(vector<string> friends, vector<string> gifts) {
-        
-        
-          
-              init(friends);
-        
-        
-          
-              vector<int> v(friends.size(), 0);
-        
-        
-          
-              
-        
-        
-          
-              for (string gift : gifts)
-        
-        
-          
-              {
-        
-        
-          
-                  istringstream iss(gift);
-        
-        
-          
-                  string name, name2;
-        
-        
-          
-                  iss >> name >> name2;
-        
-        
-          
-                  
-        
-        
-          
-                  name2factor[name]++;
-        
-        
-          
-                  name2factor[name2]--;
-        
-        
-          
-                  arr[name2idx[name]][name2idx[name2]]++;
-        
-        
-          
-              }
-        
-        
-          
-              
-        
-        
-          
-              for (int i = 0; i < friends.size(); i++)
-        
-        
-          
-              {
-        
-        
-          
-                  for (int j = i + 1; j < friends.size(); j++)
-        
-        
-          
-                  {
-        
-        
-          
-                      string name = friends[i];
-        
-        
-          
-                      string name2 = friends[j];
-        
-        
-          
-                      int idx = name2idx[name];
-        
-        
-          
-                      int idx2 = name2idx[name2];
-        
-        
-          
-                      
-        
-        
-          
-                      if (arr[idx][idx2] > arr[idx2][idx])
-        
-        
-          
-                      {
-        
-        
-          
-                          v[idx]++;
-        
-        
-          
-                      }
-        
-        
-          
-                      else if (arr[idx][idx2] < arr[idx2][idx])
-        
-        
-          
-                      {
-        
-        
-          
-                          v[idx2]++;
-        
-        
-          
-                      }
-        
-        
-          
-                      else
-        
-        
-          
-                      {
-        
-        
-          
-                          if (name2factor[name] > name2factor[name2])
-        
-        
-          
-                          {
-        
-        
-          
-                              v[idx]++;
-        
-        
-          
-                          }
-        
-        
-          
-                          else if (name2factor[name] < name2factor[name2])
-        
-        
-          
-                          {
-        
-        
-          
-                              v[idx2]++;
-        
-        
-          
-                          }
-        
-        
-          
-                      }
-        
-        
-          
-                  }
-        
-        
-          
-              }
-        
-        
-          
-              
-        
-        
-          
-              sort(v.begin(), v.end(), cmp);
-        
-        
-          
-              
-        
-        
-          
-              return v[0];
-        
-        
-          
-          }
+int solution(vector<string> friends, vector<string> gifts) {    
+    int answer = 0;
+    int giftPoint[50] = {0,};        
+    int arr[50][50];        
+    map<string, int> table;
+    
+    for (int i = 0; i < 50; ++i)
+    {
+        for (int j = 0; j < 50; ++j)
+        {
+            arr[i][j] = 0;
+        }
+    }
+    
+    for (const string& item : gifts)
+    {        
+        map<string,int>::iterator iter = table.find(item);
+        if (iter == table.end())
+        {
+            table[item] = 1;
+        }
+        else
+        {
+            ++iter->second;
+        }     
+    }
+    
+    for (int i = 0; i < friends.size(); ++i)
+    {
+        for (int j = 0; j < friends.size(); ++j)
+        {
+            if (i == j)
+            {
+                continue;
+            }
+            
+            string str = friends[i];
+            str += " ";
+            str +=  friends[j];
+            map<string, int>::iterator iter = table.find(str);
+            if (iter != table.end())
+            {
+                arr[i][j] = iter->second;
+                giftPoint[i] += arr[i][j];
+                giftPoint[j] -= arr[i][j];
+            }            
+        }
+    }
+    
+    for (int i = 0; i < friends.size(); ++i)
+    {
+        int temp = 0;
+        for (int j = 0; j < friends.size(); ++j)
+        {
+            if (i == j)
+            {
+                continue;
+            }
+                                
+            if (arr[j][i] < arr[i][j])
+            {
+                ++temp;
+            }
+            else if (arr[j][i]  == arr[i][j] && giftPoint[j] < giftPoint[i])
+            {
+                ++temp;
+            }
+        }
+        
+        if (answer < temp)
+        {
+            answer = temp;
+        }
+    }    
+    return answer;
+}

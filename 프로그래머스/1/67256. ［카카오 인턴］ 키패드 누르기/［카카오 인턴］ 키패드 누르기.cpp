@@ -4,58 +4,36 @@
 
 using namespace std;
 
-//거리계산 distance 8과 9
-// 1 = 0, 0
-// 2 = 0, 1
-// 3 = 0, 2
-// 4 = 1, 0
-// 5 = 1, 1
-// 6 = 1, 2
-// 7 = 2, 1
-// 8 = 2, 2
-// 9 = 2, 3
-// 0 = 3, 2
-
-//즉 판단은 가운데 버튼을 누를때만함
-
 struct tPos
 {
     int x;
     int y;
 };
 
+tPos posArr[12] = {
+    {3, 1},                  // 0
+    {0, 0}, {0, 1}, {0, 2},  // 1 2 3
+    {1, 0}, {1, 1}, {1, 2},  // 1 2 3
+    {2, 0}, {2, 1}, {2, 2},   // 4 5 6
+    {3, 0},         {3, 2}   // 7   9
+};
 
 int distance(int hand, int dest)
-{
-    tPos posArr[30] = {0,};
-    memset(posArr, 0, sizeof(posArr));
-              
-    int k = 1;
-    for (int i = 0; i < 4; ++i)
-    {
-        for (int j = 0; j < 3; ++j)
-        {
-            posArr[k] = {i, j};
-            k++;
-        }
-    }
-    posArr[0] = {3, 1};
+{                      
     int x = posArr[hand].x - posArr[dest].x;
     int y = posArr[hand].y - posArr[dest].y;
     
     x = x < 0 ? x * -1 : x;
     y = y < 0 ? y * -1 : y;
-
+    
     return x + y;
 }
 
 string solution(vector<int> numbers, string hand) {
-    
-    //누가더 가까운가 2, 5, 8, 0 중에서...
     string answer;
     
     int lPos = 10;
-    int RPos = 12;
+    int RPos = 11;
     for (int num : numbers)
     {
         if (num == 1 || num == 4 || num == 7)

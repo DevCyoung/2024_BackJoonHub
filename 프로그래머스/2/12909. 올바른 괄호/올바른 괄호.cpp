@@ -25,11 +25,5 @@ bool solution(string s)
             break;
         }
     }
-    
-    if (stack)
-    {
-        answer = false;
-    }
-
-    return answer;
+    return stack == 0;
 }

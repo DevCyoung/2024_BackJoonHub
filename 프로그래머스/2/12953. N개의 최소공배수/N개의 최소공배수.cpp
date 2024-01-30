@@ -4,14 +4,7 @@
 using namespace std;
 
 int num(int a, int b)
-{        
-    if (a > b)
-    {
-        int temp  = a;
-        a = b;
-        b = temp;
-    }
-    
+{ 
     while (a)
     {
         int temp = a;

@@ -1,46 +1,20 @@
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <iostream>
+#include <stack>
+
 using namespace std;
 
 vector<int> solution(vector<int> numbers) {
-    vector<int> answer;
-    vector<int> temp;
-    
-    temp.resize(numbers.size());
-    
-    temp[numbers.size() - 1] = -1;
-    for (int i = numbers.size() - 2; i >= 0; --i)
-    {
-        int idx = i + 1;
-        while (idx != -1 && idx < numbers.size() && numbers[i] >= numbers[idx])
-        {
-            idx = temp[idx];
-        }        
-        
-        if (numbers[i] < numbers[idx])
-        {
-            temp[i] = idx;
+    vector<int> answer(numbers.size(), -1);
+    stack<int> stk;
+
+    for(int i=0; i<numbers.size(); i++) {
+        while(!stk.empty() && numbers[stk.top()] < numbers[i]) {
+            answer[stk.top()] = numbers[i];
+            stk.pop();
         }
-        else
-        {
-            temp[i] = -1;
-        }
+        stk.push(i);
     }
-    
-    for (int i = 0; i < temp.size(); ++i)
-    {                
-        if (temp[i] == -1)
-        {
-            answer.push_back(-1);
-        }
-        else
-        {
-            answer.push_back(numbers[temp[i]]);
-        }
-    }
-    std::cout << std::endl;
-    
+
     return answer;
 }

@@ -6,28 +6,28 @@
 using namespace std;
 
 int solution(int n, int k, vector<int> enemys) {
-    int answer = k;        
-    long long sum = 0;
+    int answer = enemys.size() > k ? k : enemys.size();    
     priority_queue<int, std::vector<int>, std::greater<int>> q;
 
-    for (int i = 0; i < enemys.size(); ++i)
+    for (int i = 0; i < k; ++i)
+    {
+        q.push(enemys[i]);
+    }
+    
+    for (int i = k; i < enemys.size(); ++i)
     {        
-        if (q.size() < k)
+        if (q.top() <= enemys[i])
         {
-            q.push(enemys[i]);
-        }
-        else if (q.top() <= enemys[i])
-        {
-            sum += q.top();
+            n -= q.top();
             q.pop();
             q.push(enemys[i]);
         }
         else
         {
-            sum += enemys[i];
+            n -= enemys[i];
         }
         
-        if (sum <= n)
+        if (n >= 0)
         {
             answer = i + 1;
         }

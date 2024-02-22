@@ -63,8 +63,7 @@ bool isThatMusic(const vector<string>& pitchs_m, const vector<string>& pitchs_mu
         int tempTime = time - i;
 
         while (j < pitchs_m.size())
-        {
-            //std::cout << pitchs_musincInfo[(i + k) % pitchs_musincInfo.size()];
+        {            
             if (pitchs_musincInfo[(i + k) % pitchs_musincInfo.size()] != pitchs_m[j % pitchs_m.size()])
             {
                 flag = false;
@@ -74,10 +73,7 @@ bool isThatMusic(const vector<string>& pitchs_m, const vector<string>& pitchs_mu
             ++j;
             ++k;
             --tempTime;
-        }
-        
-        //std::cout << std::endl;
-        
+        }        
         if (flag && tempTime >= 0)
         {
             return true;
@@ -95,17 +91,11 @@ string solution(string m, vector<string> musicinfos) {
     
     for (string musicInfo: musicinfos)
     {        
-        vector<string> infos                = comSplit(musicInfo);        
+        vector<string> infos                =  comSplit(musicInfo);        
         vector<string> pitchs_m             =  musicSplit(m);
         vector<string> pitchs_musicncInfo   =  musicSplit(infos[3]);
-        int time = getTime(infos[1]) - getTime(infos[0]);
+        int time                            =  getTime(infos[1]) - getTime(infos[0]);
         
-        //for (int i = 0; i < pitchs_musicncInfo.size(); ++i)
-        //{
-        //    std::cout <<  pitchs_musicncInfo[i] << " ";
-        //}
-        //std::cout << std::endl;
-            
         if (isThatMusic(pitchs_m, pitchs_musicncInfo, time))
         {
             if (tempTime < time)
@@ -113,7 +103,6 @@ string solution(string m, vector<string> musicinfos) {
                 tempTime = time;
                 answer = infos[2];
             }
-           // std::cout << infos[2] << std::endl;
         }
     }    
     

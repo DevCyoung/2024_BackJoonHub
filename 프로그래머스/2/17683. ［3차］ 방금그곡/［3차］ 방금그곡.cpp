@@ -4,7 +4,7 @@
 
 using namespace std;
 
-vector<string> musicSplit(string str)
+vector<string> pitchSplit(string str)
 {
     vector<string> result;
     
@@ -54,32 +54,24 @@ int getTime(string time)
 
 bool isThatMusic(const vector<string>& pitchs_m, const vector<string>& pitchs_musincInfo, const int time)
 {
-    int i = 0;
-    while (i < time)
+    for (int i = 0; i < time; ++i)
     {
-        bool flag = true;
-        int j = 0;
-        int k = 0;
-        int tempTime = time - i;
+        bool    flag     = true;        
+        int     tempTime = time - i;
 
-        while (j < pitchs_m.size())
-        {            
-            if (pitchs_musincInfo[(i + k) % pitchs_musincInfo.size()] != pitchs_m[j % pitchs_m.size()])
+        for (int j = 0; j < pitchs_m.size(); ++j)
+        {
+            if (pitchs_m[j % pitchs_m.size()] != pitchs_musincInfo[(i + j) % pitchs_musincInfo.size()])
             {
                 flag = false;
                 break;                
-            }            
-
-            ++j;
-            ++k;
+            }                   
             --tempTime;
         }        
         if (flag && tempTime >= 0)
         {
             return true;
         }
-        
-        ++i;
     }
     
     return false;
@@ -92,8 +84,8 @@ string solution(string m, vector<string> musicinfos) {
     for (string musicInfo: musicinfos)
     {        
         vector<string> infos                =  comSplit(musicInfo);        
-        vector<string> pitchs_m             =  musicSplit(m);
-        vector<string> pitchs_musicncInfo   =  musicSplit(infos[3]);
+        vector<string> pitchs_m             =  pitchSplit(m);
+        vector<string> pitchs_musicncInfo   =  pitchSplit(infos[3]);
         int time                            =  getTime(infos[1]) - getTime(infos[0]);
         
         if (isThatMusic(pitchs_m, pitchs_musicncInfo, time))

@@ -1,19 +1,11 @@
-#include <algorithm>
-#include <cmath>
-#include <iostream>
-
 using namespace std;
-int gcd(int a, int b)
-{
-    if (a == 0)
-    {
-        return b;
+
+long long solution(int w, int h) {
+    long long answer = 0;
+
+    for (int i = 0; i < w; ++i) {
+        answer += (int)((double)h*i/w);
     }
 
-    return gcd(b % a, a);
-}
-long long solution(int w,int h) 
-{
-    long long size = (long long)w + (long long)h - gcd(w, h);
-    return (long long)w * (long long)h - size;
+    return 2 * answer;
 }

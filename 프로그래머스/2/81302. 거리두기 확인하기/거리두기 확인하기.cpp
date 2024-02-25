@@ -17,7 +17,6 @@ bool isSafe(vector<string> place)
                 {
                     int nx = x + dx[i];
                     int ny = y + dy[i];
-                    
                     if (nx <0 || ny < 0 || nx >=5 || ny >= 5 || place[ny][nx] == 'X')
                         continue;
                     if (place[ny][nx] == 'B' || place[ny][nx] == 'P')
@@ -33,8 +32,6 @@ bool isSafe(vector<string> place)
 vector<int> solution(vector<vector<string>> places) {
     vector<int> answer;
     for (vector<string> place : places)
-    {
         answer.push_back(isSafe(place));
-    }
     return answer;
 }

@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <limits.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -10,8 +11,8 @@ int get_min_move(const int step_dir, const int back_dir, const string& name)
     int cursor = 0;
     int move_count = 0;
     int min = INT_MAX;    
-    string hi_score_name(name.size(), 'A');   
-    
+    string hi_score_name(name.size(), 'A');
+
     while (hi_score_name != name)
     {   
         if (hi_score_name[cursor] != name[cursor])
@@ -70,10 +71,9 @@ int solution(string name) {
     
     for (char item : name)
     {
-        answer += item - 'A' < 'Z' - item + 1 ? item - 'A' : 'Z' - item + 1;
+        answer += min(item - 'A' , 'Z' - item + 1);
     }
-    int min1 = get_min_move(1,  -1, name);
-    int min2 = get_min_move(-1,  1, name);        
-    answer += min1 < min2 ? min1 : min2;    
+
+    answer += min(get_min_move(1, -1, name), get_min_move(-1, 1, name));
     return answer;
 }

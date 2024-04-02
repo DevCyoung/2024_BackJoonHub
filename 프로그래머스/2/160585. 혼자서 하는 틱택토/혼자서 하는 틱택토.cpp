@@ -17,7 +17,6 @@ short wintable[8]
 };
 
 int solution(vector<string> board) {
-    int answer = -1;
     short o = 0;
     short x = 0;
     short oCount = 0;
@@ -43,37 +42,37 @@ int solution(vector<string> board) {
     }
     
     //승패판단
-    short bOWinCount = 0;
-    short bXWinCount = 0;
+    short oWinCount = 0;
+    short xWinCount = 0;
     for (int i = 0; i < 8; ++i)
     {        
         if ((wintable[i] & o) == wintable[i])
         {           
-            ++bOWinCount;
+            ++oWinCount;
         }
         else if ((wintable[i] & x) == wintable[i])
         {
-            ++bXWinCount;
+            ++xWinCount;
         }        
     }
 
-    if (bOWinCount > 2 || bXWinCount > 2)
+    if (oWinCount > 2 || xWinCount > 2)
     {
         return 0;
     }
-    else if (bOWinCount == 1 && bOWinCount == bXWinCount)
+    else if (oWinCount == 1 && oWinCount == xWinCount)
     {
         return 0;
     }
-    else if ((oCount - xCount) != 0 && (oCount - xCount) != 1)
+    else if (oCount - xCount != 0 && oCount - xCount != 1)
     {
         return 0;
     }
-    else if (bOWinCount && !((oCount - xCount) == 1))
+    else if (oWinCount && !(oCount - xCount == 1))
     {
         return 0;
     }
-    else if (bXWinCount && oCount != xCount)
+    else if (xWinCount && oCount != xCount)
     {
         return 0;
     }

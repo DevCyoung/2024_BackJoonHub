@@ -55,12 +55,8 @@ int solution(vector<string> board) {
             ++xWinCount;
         }        
     }
-
-    if (oWinCount > 2 || xWinCount > 2)
-    {
-        return 0;
-    }
-    else if (oWinCount == 1 && oWinCount == xWinCount)
+    
+    if (oWinCount == 1 && oWinCount == xWinCount)
     {
         return 0;
     }
@@ -73,10 +69,6 @@ int solution(vector<string> board) {
         return 0;
     }
     else if (xWinCount && oCount != xCount)
-    {
-        return 0;
-    }
-    else if (oCount < xCount)
     {
         return 0;
     }
